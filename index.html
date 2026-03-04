@@ -166,8 +166,8 @@
     <!-- 2. メインスクリプト -->
     <script src="js/main.js"></script>
     <script>
-      // フッターの更新日時を自動セット
-      document.getElementById("last-updated").textContent = new Date().toLocaleDateString("ja-JP", {
+      // フッターの更新日時をprofile.jsの値からセット
+      document.getElementById("last-updated").textContent = new Date(PROFILE.lastUpdated).toLocaleDateString("ja-JP", {
         year: "numeric",
         month: "long",
         day: "numeric",

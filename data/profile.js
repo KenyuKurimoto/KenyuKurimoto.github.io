@@ -3,6 +3,9 @@
  */
 
 const PROFILE = {
+  // ─── メタ情報 ──────────────────────────────────────────
+  lastUpdated: "2026-03-02",
+
   // ─── 基本情報 ──────────────────────────────────────────
   name: "栗本 健有",
   nameEn: "Ken'yu Kurimoto",
@@ -19,10 +22,10 @@ const PROFILE = {
   contact: {
     // メールアドレスはBase64エンコードで難読化（スパム対策）
     // email: "a2VueXUua3VyaW1vdG9AZ21haWwuY29t",
-    github: "https://github.com/KenyuKurimoto",
-    linkedin: "",
-    twitter: "",
-    blog: "",
+    // github: "https://github.com/KenyuKurimoto",
+    // linkedin: "",
+    // twitter: "",
+    // blog: "",
   },
 
   // ─── スキル ────────────────────────────────────────────
