@@ -1,20 +1,41 @@
 "use client";
 
 import { useState } from "react";
-import { Project } from "@/data/types";
+import { Project, MediaItem } from "@/data/types";
 
 interface ProjectItemProps {
   project: Project;
 }
 
+function getYouTubeEmbedUrl(url: string): string {
+  try {
+    const urlObj = new URL(url);
+    const videoId = urlObj.searchParams.get("v");
+    const t = urlObj.searchParams.get("t");
+    const seconds = t ? parseInt(t.replace(/s$/, ""), 10) : null;
+
+    if (!videoId) return url;
+
+    return `https://www.youtube.com/embed/${videoId}${seconds ? `?start=${seconds}` : ""}`;
+  } catch {
+    return url;
+  }
+}
+
 export default function ProjectItem({ project }: ProjectItemProps) {
   const [expanded, setExpanded] = useState(false);
 
-  const allMedia = [
-    ...(project.images || []),
-    ...(project.videos || []),
-    ...(project.youtube ? [{ url: project.youtube, caption: "" }] : []),
-  ];
+  // Build media array consistently for SSR/CSR
+  const allMedia: MediaItem[] = [];
+  if (project.images) {
+    allMedia.push(...project.images);
+  }
+  if (project.videos) {
+    allMedia.push(...project.videos);
+  }
+  if (project.youtube) {
+    allMedia.push({ url: project.youtube, caption: "" });
+  }
 
   return (
     <div className="border border-border rounded-sm bg-card overflow-hidden hover:shadow-sm transition-shadow">
@@ -70,15 +91,7 @@ export default function ProjectItem({ project }: ProjectItemProps) {
 
           {/* メディアギャラリー */}
           {allMedia.length > 0 && (
-            <div
-              className={`grid gap-2.5 mb-4 ${
-                allMedia.length === 1
-                  ? "grid-cols-1"
-                  : allMedia.length === 2
-                    ? "grid-cols-2"
-                    : "grid-cols-1 sm:grid-cols-2"
-              }`}
-            >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
               {allMedia.map((media, index) => {
                 const isVideo = media.url.endsWith(".mp4") || media.url.endsWith(".webm");
                 const isYoutube = media.url.includes("youtube.com");
@@ -92,15 +105,7 @@ export default function ProjectItem({ project }: ProjectItemProps) {
                   >
                     {isYoutube ? (
                       <iframe
-                        src={(() => {
-                          const url = new URL(media.url);
-                          const videoId = url.searchParams.get("v");
-                          const t = url.searchParams.get("t");
-                          const seconds = t ? parseInt(t.replace(/s$/, ""), 10) : null;
-                          return `https://www.youtube.com/embed/${videoId}${
-                            seconds ? `?start=${seconds}` : ""
-                          }`;
-                        })()}
+                        src={getYouTubeEmbedUrl(media.url)}
                         className="absolute inset-0 w-full h-full"
                         allowFullScreen
                       />
