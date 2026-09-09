@@ -1,66 +1,26 @@
-import { Metadata } from "next";
-import Hero from "@/components/Hero";
-import Section from "@/components/Section";
-import About from "@/components/About";
-import Skills from "@/components/Skills";
-import Experience from "@/components/Experience";
-import Education from "@/components/Education";
-import Certifications from "@/components/Certifications";
+import type { Metadata } from "next";
+import SitePage from "@/components/SitePage";
 import { profileJa } from "@/data/profile.ja";
+import { ja } from "@/data/ui";
 
 export const metadata: Metadata = {
-  title: "栗本健有 | ソフトウェアエンジニア - ポートフォリオ",
+  title: "栗本 健有 | ロボティクス・システムエンジニア",
   description:
-    "栗本健有 (Ken'yu Kurimoto) のポートフォリオ・職務経歴書。ロボティクス・ROS・AI・システム統合の経験を持つソフトウェアエンジニア。",
+    "栗本健有（Ken'yu Kurimoto）のポートフォリオ。ハードウェア設計からROSベースのソフトウェア開発、エレベーター・自動ドア・都市スケールの上位システムとの連携まで、サービスロボットの社会実装に取り組んでいます。",
+  alternates: {
+    canonical: "/ja/",
+    languages: { ja: "/ja/", en: "/en/" },
+  },
   openGraph: {
-    title: "栗本健有 | ソフトウェアエンジニア - ポートフォリオ",
+    title: "栗本 健有 | ロボティクス・システムエンジニア",
     description:
-      "ロボティクス・ROS・AI・システム統合の経験を持つソフトウェアエンジニアのポートフォリオ・職務経歴書",
+      "ロボットを、社会インフラの一部にする。ロボティクス・ROS・AI・システム統合のポートフォリオ。",
     type: "website",
     locale: "ja_JP",
+    images: ["/assets/albion_image_with_logo.png"],
   },
 };
 
 export default function JaPage() {
-  return (
-    <>
-      <Hero
-        name={profileJa.name}
-        nameEn={profileJa.nameEn}
-        title={profileJa.title}
-        avatar={profileJa.avatar}
-        currentLang="ja"
-      />
-
-      <main className="py-14 bg-bg">
-        <div className="container-custom">
-          <Section id="about" title="自己紹介" icon="👤" iconColor="blue">
-            <About paragraphs={profileJa.about} />
-          </Section>
-
-          <Section id="skills" title="スキル" icon="⚡" iconColor="mint">
-            <Skills skills={profileJa.skills} />
-          </Section>
-
-          <Section id="experience" title="職歴" icon="💼" iconColor="blue">
-            <Experience experiences={profileJa.experience} lang="ja" />
-          </Section>
-
-          <Section id="education" title="学歴" icon="🎓" iconColor="amber">
-            <Education education={profileJa.education} />
-          </Section>
-
-          <Section id="certifications" title="所持資格・認定" icon="🏆" iconColor="amber">
-            <Certifications certifications={profileJa.certifications} />
-          </Section>
-        </div>
-      </main>
-
-      <footer className="bg-card border-t border-border py-7 text-center text-xs text-muted">
-        <div className="container-custom">
-          <p>Last updated: {profileJa.lastUpdated}</p>
-        </div>
-      </footer>
-    </>
-  );
+  return <SitePage profile={profileJa} ui={ja} />;
 }

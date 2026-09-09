@@ -1,61 +1,77 @@
-import Image from "next/image";
-import Link from "next/link";
+import type { Hero as HeroType, Metric } from "@/data/types";
 
 interface HeroProps {
-  name: string;
-  nameEn: string;
-  title: string;
-  avatar?: string;
-  currentLang: "ja" | "en";
+  hero: HeroType;
+  metrics: Metric[];
 }
 
-export default function Hero({ name, nameEn, title, avatar, currentLang }: HeroProps) {
-  const toggleLang = currentLang === "ja" ? "en" : "ja";
-  const toggleLabel = currentLang === "ja" ? "EN" : "日本語";
-
+export default function Hero({ hero, metrics }: HeroProps) {
   return (
-    <header className="relative bg-gradient-to-br from-blue via-[#1d4ed8] to-[#0891b2] text-white py-16 md:py-20 overflow-hidden">
-      {/* 装飾的な背景円 */}
-      <div className="absolute top-[-60px] right-[-80px] w-80 h-80 bg-white/5 rounded-full" />
-      <div className="absolute bottom-[-80px] left-[-50px] w-64 h-64 bg-white/5 rounded-full" />
-
-      <div className="container-custom relative z-10">
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
-          {/* アバター */}
-          <div className="flex-shrink-0 w-24 h-24 rounded-full bg-white/20 border-3 border-white/50 overflow-hidden flex items-center justify-center text-5xl backdrop-blur-sm">
-            {avatar ? (
-              <Image
-                src={avatar}
-                alt={name}
-                width={96}
-                height={96}
-                className="w-full h-full object-cover rounded-full"
-              />
-            ) : (
-              "👤"
-            )}
-          </div>
-
-          {/* テキスト情報 */}
-          <div className="flex-1 text-center md:text-left">
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">{name}</h1>
-            <p className="text-base opacity-75 mt-1 tracking-wide">{nameEn}</p>
-            <div className="inline-block mt-3 bg-white/15 border border-white/30 rounded-full px-4 py-1 text-sm font-medium tracking-wide backdrop-blur-sm">
-              {title}
-            </div>
-          </div>
+    <section className="relative pt-[104px] md:pt-[168px]">
+      <div className="shell">
+        <div className="flex items-center gap-4">
+          <span className="h-px w-8 bg-sand md:w-12" />
+          <p className="eyebrow">{hero.eyebrow}</p>
         </div>
 
-        {/* 言語切り替えボタン */}
-        <div className="flex justify-center md:justify-end mt-4">
-          <Link
-            href={`/${toggleLang}`}
-            className="bg-transparent border-2 border-white/60 rounded-full px-4 py-1 text-xs font-bold tracking-wide opacity-70 hover:opacity-100 transition-opacity"
-          >
-            {toggleLabel}
-          </Link>
+        <div className="mt-9 grid grid-cols-1 gap-x-14 md:mt-12 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <h1 className="text-[clamp(2.6rem,8.5vw,5.4rem)] leading-[1.06] tracking-[-0.02em]">
+              {hero.name}
+            </h1>
+            <p className="mt-6 font-sans text-[11px] uppercase tracking-eyebrow text-muted">
+              {hero.nameLatin}
+            </p>
+          </div>
+
+          <div className="mt-11 lg:col-span-5 lg:mt-0 lg:pb-2">
+            <span className="mb-6 block h-px w-full bg-line" />
+            <p className="font-display text-[19px] leading-[1.6] text-ink md:text-[21px]">
+              {hero.role}
+            </p>
+            <p className="ja-body mt-5 max-w-measure text-[14.5px] leading-[1.95] text-body md:text-[15px]">
+              {hero.lede}
+            </p>
+          </div>
         </div>
       </div>
-    </header>
+
+      {/* 16:9 full-bleed plate */}
+      <figure className="mt-14 md:mt-24">
+        <div className="relative aspect-video w-full overflow-hidden bg-mist">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={hero.image}
+            alt={hero.imageCaption}
+            className="hero-image absolute inset-0 h-full w-full object-cover"
+            fetchPriority="high"
+          />
+        </div>
+        <figcaption className="shell mt-4 flex justify-end">
+          <span className="ja-body max-w-[46ch] text-right font-sans text-[11.5px] leading-relaxed text-muted">
+            {hero.imageCaption}
+          </span>
+        </figcaption>
+      </figure>
+
+      {/* numbers band */}
+      <div className="shell mt-16 md:mt-24">
+        <dl className="grid grid-cols-2 border-t border-line md:grid-cols-4">
+          {metrics.map((metric, i) => (
+            <div
+              key={i}
+              className="border-b border-line px-1 py-7 md:border-b-0 md:py-9 md:pl-6 md:pr-4 md:first:pl-0 md:[&:not(:first-child)]:border-l md:[&:not(:first-child)]:border-line"
+            >
+              <dt className="font-display text-[38px] leading-none text-ink md:text-[46px]">
+                {metric.value}
+              </dt>
+              <dd className="mt-3 whitespace-pre-line font-sans text-[11px] leading-[1.7] tracking-wide text-muted">
+                {metric.label}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
   );
 }

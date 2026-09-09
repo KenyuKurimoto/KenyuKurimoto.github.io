@@ -1,31 +1,38 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
+import Reveal from "./Reveal";
 
 interface SectionProps {
   id: string;
+  index: string;
+  eyebrow: string;
   title: string;
-  icon: string;
-  iconColor: "blue" | "mint" | "amber";
   children: ReactNode;
+  /** Set for the last section so it doesn't double up on the footer rule. */
+  className?: string;
 }
 
-const iconColorClasses = {
-  blue: "bg-blue-pale text-blue",
-  mint: "bg-mint-pale text-mint",
-  amber: "bg-amber-pale text-amber",
-};
-
-export default function Section({ id, title, icon, iconColor, children }: SectionProps) {
+export default function Section({
+  id,
+  index,
+  eyebrow,
+  title,
+  children,
+  className = "",
+}: SectionProps) {
   return (
-    <section className="mb-16" id={id}>
-      <div className="flex items-center gap-3 mb-7">
-        <div
-          className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg flex-shrink-0 ${iconColorClasses[iconColor]}`}
-        >
-          {icon}
+    <section id={id} className={`shell scroll-mt-24 py-20 md:py-32 ${className}`}>
+      <Reveal>
+        <div className="grid grid-cols-1 items-baseline gap-x-14 border-t border-line pt-7 lg:grid-cols-12">
+          <div className="flex items-baseline gap-4 lg:col-span-4">
+            <span className="font-sans text-[10px] tracking-eyebrow text-sand">{index}</span>
+            <p className="eyebrow">{eyebrow}</p>
+          </div>
+          <h2 className="mt-5 text-[clamp(1.7rem,4.2vw,2.9rem)] leading-[1.24] lg:col-span-8 lg:mt-0">
+            {title}
+          </h2>
         </div>
-        <h2 className="text-xl font-extrabold text-navy tracking-tight">{title}</h2>
-        <div className="flex-1 h-px bg-gradient-to-r from-border to-transparent" />
-      </div>
+      </Reveal>
+
       {children}
     </section>
   );

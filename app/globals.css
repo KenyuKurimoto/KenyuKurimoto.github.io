@@ -3,19 +3,149 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    color-scheme: light;
+  }
+
   html {
     scroll-behavior: smooth;
+    /* fixed header clearance for anchor jumps */
+    scroll-padding-top: 6.5rem;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    @apply bg-bg text-text;
-    font-family: "Inter", "Noto Sans JP", sans-serif;
-    line-height: 1.7;
+    @apply bg-paper text-body font-sans antialiased;
+    font-size: 15px;
+    line-height: 1.9;
+    font-feature-settings: "palt" 1;
+    overflow-x: hidden;
+  }
+
+  @media (min-width: 768px) {
+    body {
+      font-size: 16px;
+    }
+  }
+
+  ::selection {
+    background: #22384c;
+    color: #fbfaf7;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-ink;
+    font-weight: 400;
+    line-height: 1.14;
+  }
+
+  /* Japanese display text needs a touch more air than the latin serif */
+  :lang(ja) h1,
+  :lang(ja) h2,
+  :lang(ja) h3 {
+    letter-spacing: 0.01em;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-shell px-6 md:px-10 lg:px-14;
+  }
+
+  /* small uppercase label used above every section and in the nav */
+  .eyebrow {
+    @apply font-sans text-[10.5px] uppercase tracking-eyebrow text-muted md:text-[11px];
+    font-weight: 500;
+  }
+
+  /* hairline pill for tech / skill tags */
+  .tag {
+    @apply inline-flex items-center rounded-full border border-line px-3 py-[5px] font-sans
+           text-[11px] tracking-wide text-body/85 transition-colors duration-300;
+  }
+
+  .tag:hover {
+    @apply border-navy/35 text-navy;
+  }
+
+  .rule {
+    @apply h-px w-full bg-line;
+  }
+
+  /* understated text link with a rule that draws itself in */
+  .link-quiet {
+    @apply relative inline-block text-navy transition-colors duration-300;
+  }
+
+  .link-quiet::after {
+    content: "";
+    @apply absolute bottom-[-2px] left-0 h-px w-full origin-right scale-x-0 bg-navy/45
+           transition-transform duration-500 ease-editorial;
+  }
+
+  .link-quiet:hover::after {
+    @apply origin-left scale-x-100;
   }
 }
 
 @layer utilities {
-  .container-custom {
-    @apply max-w-[860px] mx-auto px-5;
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* prevents awkward mid-word breaks in long Japanese paragraphs */
+  .ja-body {
+    line-break: strict;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+}
+
+/* --- entrance animation ------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.hero-image {
+  transform: scale(1.06);
+  opacity: 0;
+  animation: hero-settle 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+
+@keyframes hero-settle {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal,
+  .hero-image {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
   }
 }

@@ -1,66 +1,26 @@
-import { Metadata } from "next";
-import Hero from "@/components/Hero";
-import Section from "@/components/Section";
-import About from "@/components/About";
-import Skills from "@/components/Skills";
-import Experience from "@/components/Experience";
-import Education from "@/components/Education";
-import Certifications from "@/components/Certifications";
+import type { Metadata } from "next";
+import SitePage from "@/components/SitePage";
 import { profileEn } from "@/data/profile.en";
+import { en } from "@/data/ui";
 
 export const metadata: Metadata = {
-  title: "Ken'yu Kurimoto | Software Engineer - Portfolio",
+  title: "Ken'yu Kurimoto | Robotics Systems Engineer",
   description:
-    "Portfolio and resume of Ken'yu Kurimoto, a software engineer specializing in robotics, ROS, AI, and system integration.",
+    "Portfolio of Ken'yu Kurimoto. From hardware design and ROS-based software to integration with elevators, automatic doors and city-scale operating systems.",
+  alternates: {
+    canonical: "/en/",
+    languages: { ja: "/ja/", en: "/en/" },
+  },
   openGraph: {
-    title: "Ken'yu Kurimoto | Software Engineer - Portfolio",
+    title: "Ken'yu Kurimoto | Robotics Systems Engineer",
     description:
-      "Portfolio and resume of a software engineer specializing in robotics, ROS, AI, and system integration.",
+      "Making robots part of the infrastructure. Robotics, ROS, AI and system integration.",
     type: "website",
     locale: "en_US",
+    images: ["/assets/albion_image_with_logo.png"],
   },
 };
 
 export default function EnPage() {
-  return (
-    <>
-      <Hero
-        name={profileEn.name}
-        nameEn={profileEn.nameEn}
-        title={profileEn.title}
-        avatar={profileEn.avatar}
-        currentLang="en"
-      />
-
-      <main className="py-14 bg-bg">
-        <div className="container-custom">
-          <Section id="about" title="About" icon="👤" iconColor="blue">
-            <About paragraphs={profileEn.about} />
-          </Section>
-
-          <Section id="skills" title="Skills" icon="⚡" iconColor="mint">
-            <Skills skills={profileEn.skills} />
-          </Section>
-
-          <Section id="experience" title="Experience" icon="💼" iconColor="blue">
-            <Experience experiences={profileEn.experience} lang="en" />
-          </Section>
-
-          <Section id="education" title="Education" icon="🎓" iconColor="amber">
-            <Education education={profileEn.education} />
-          </Section>
-
-          <Section id="certifications" title="Certifications" icon="🏆" iconColor="amber">
-            <Certifications certifications={profileEn.certifications} />
-          </Section>
-        </div>
-      </main>
-
-      <footer className="bg-card border-t border-border py-7 text-center text-xs text-muted">
-        <div className="container-custom">
-          <p>Last updated: {profileEn.lastUpdated}</p>
-        </div>
-      </footer>
-    </>
-  );
+  return <SitePage profile={profileEn} ui={en} />;
 }

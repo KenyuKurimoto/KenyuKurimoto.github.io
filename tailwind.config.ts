@@ -5,36 +5,38 @@ export default {
   theme: {
     extend: {
       colors: {
-        sky: "#e0f2fe",
-        blue: {
-          DEFAULT: "#2563eb",
-          light: "#3b82f6",
-          pale: "#eff6ff",
-        },
-        mint: {
-          DEFAULT: "#10b981",
-          pale: "#ecfdf5",
-        },
-        amber: {
-          DEFAULT: "#f59e0b",
-          pale: "#fffbeb",
-        },
-        navy: "#1e3a5f",
-        text: "#374151",
-        muted: "#6b7280",
-        bg: "#f0f7ff",
-        card: "#ffffff",
-        border: "#dbeafe",
+        /* --- surfaces --------------------------------------------------- */
+        paper: "#FBFAF7", // warm off-white : page ground
+        canvas: "#FFFFFF", // pure white    : cards
+        mist: "#F3F0EA", // quiet band / media ground
+        /* --- ink -------------------------------------------------------- */
+        ink: "#16171A", // headings
+        body: "#3C3E44", // paragraphs
+        muted: "#8B887F", // meta, captions
+        /* --- lines & accents -------------------------------------------- */
+        line: "#E5E1D8",
+        hairline: "#EFECE4",
+        navy: "#22384C", // restrained accent
+        sand: "#B8A78C", // warm secondary, used sparingly
       },
-      borderRadius: {
-        sm: "8px",
-        md: "14px",
-        lg: "22px",
+      fontFamily: {
+        display: ["var(--font-display)", "Shippori Mincho", "Yu Mincho", "serif"],
+        sans: ["var(--font-sans)", "Noto Sans JP", "Hiragino Sans", "sans-serif"],
+      },
+      letterSpacing: {
+        eyebrow: "0.22em",
+        wide: "0.08em",
+      },
+      maxWidth: {
+        shell: "1240px",
+        measure: "64ch",
       },
       boxShadow: {
-        sm: "0 1px 3px rgba(37, 99, 235, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04)",
-        md: "0 4px 16px rgba(37, 99, 235, 0.1), 0 2px 6px rgba(0, 0, 0, 0.04)",
-        lg: "0 8px 32px rgba(37, 99, 235, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06)",
+        card: "0 1px 2px rgba(22, 23, 26, 0.03), 0 12px 32px -18px rgba(22, 23, 26, 0.16)",
+        lift: "0 2px 4px rgba(22, 23, 26, 0.04), 0 24px 48px -24px rgba(22, 23, 26, 0.22)",
+      },
+      transitionTimingFunction: {
+        editorial: "cubic-bezier(0.16, 1, 0.3, 1)",
       },
     },
   },
